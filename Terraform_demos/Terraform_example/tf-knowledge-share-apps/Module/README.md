@@ -1,0 +1,1 @@
+# Note that This module has been developed for demonstration purpose. Therefore deployments will only work in the us-east-1 zone.

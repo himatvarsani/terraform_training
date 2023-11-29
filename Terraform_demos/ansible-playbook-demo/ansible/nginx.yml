@@ -1,0 +1,35 @@
+---
+  - name: Installing Nginx server
+    yum:
+      name: https://nginx.org/packages/mainline/amzn2/2/x86_64/RPMS/nginx-1.21.4-1.amzn2.ngx.x86_64.rpm
+      state: present
+  - name: Copying website files to my server
+    copy:
+      src: "files/{{ app_root }}"
+      dest: "{{ document_root }}"
+      mode: preserve
+  - name: delete default nginx site
+    file:
+      path: /etc/nginx/sites-enabled/default
+      state: absent
+  - name: create sites-enabled directory
+    file:
+      path: /etc/nginx/sites-enabled
+      state: directory
+  - name: Copy nginx site.conf.j2
+    template:
+      src: files/site.conf.j2
+      dest: "/etc/nginx/sites-enabled/{{ app_root }}"
+      owner: root
+      group: root
+      mode: '0644'
+  - name: Edit nginx.conf to point to correct directory
+    lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^(.*)include \/etc\/nginx\/conf.d\/\*.conf;(.*)$'
+      line: 'include /etc/nginx/sites-enabled/*;'
+      backrefs: yes
+  - name: Restart Nginx
+    service:
+      name: nginx
+      state: restarted

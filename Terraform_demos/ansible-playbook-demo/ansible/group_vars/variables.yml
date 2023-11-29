@@ -1,0 +1,4 @@
+server_name: "{{ansible_default_ipv4.address}}"
+document_root: /var/www/html
+app_root: static_website-main
+host_ip: "{{ lookup('file', 'hosts.txt') }}"

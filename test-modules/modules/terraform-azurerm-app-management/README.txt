@@ -1,0 +1,1 @@
+This Terraform feature creates a standalone Azure API Management [https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts], allowing you to deploy quickly an api management service. However it does not take in account the subnet requirement to the resources.
